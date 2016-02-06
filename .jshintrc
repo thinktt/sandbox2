@@ -1,0 +1,8 @@
+{
+	"laxcomma" : true,
+	"multistr" : true,	
+	"laxbreak" : true,
+	"funcscope": true,
+	"unused" : false,
+  "esnext" : true
+}
