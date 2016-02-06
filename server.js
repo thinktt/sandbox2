@@ -41,60 +41,12 @@ app.listen(port, function(err) {
   }
 });
 
+process.on('message', (message) => {
+  process.send('Howdy back');
+});
 
-
-
-// var i = 0; 
-// var lastTime = new Date() / 1000; 
-
-// function tick() { 
-//   process.nextTick(() => {
-//     i++;
-    
-//     if(i === 10000000) {
-//       console.log((new Date() / 1000)-lastTime);
-//       i = 0; 
-//       lastTime = new Date() / 1000;
-//       console.log(util.inspect(process.memoryUsage()));
-//     }
-    
-//     process.nextTick(tick);
-//   });
-// }
-
-// process.memoryUsage(); 
-
-// tick(); 
-
-
-// //for(;;){}
-
-
-// /*//.............forever test.................
-
-// console.log(forever);
-
-// var child = new (forever.Monitor)('../forecasttool/bin/www', {
-//   max: 3,
-//   silent: false,
-//   args: [],
-//   killTree: true
-// });
-
-// child.on('exit', function () {
-//   console.log('your-filename.js has exited after 3 restarts');
-// });
-
-// child.start();
-
-
-// */
-
-
-
-
-
-
-
-
+//after a minute block 
+setTimeout(() => {
+  for(;;){}
+}, 30000);
 
