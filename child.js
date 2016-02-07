@@ -5,23 +5,21 @@ var server, heartbeat;
 //...start the server for first time....
 console.log('Starting Server');
 server = fork('server');
-registerServerEvents(server);  
+registerServerEvents();  
 server.send('Howdy there Server!');
-setTimeout(checkHeartBeat, 5000);
-
-
+setTimeout(checkHeartbeat, 5000);
 
 //.....register events for the sever.....
-function registerServerEvents (server) {
+function registerServerEvents () {
 
 server.on('close', (code) => {
   console.log('Server exited on code ' + code);
   console.log('Restarting Server');
   server = fork('server');
-  // registerServerEvents(server); 
-  // server.send('Howdy there Server!');
+  registerServerEvents(); 
+  server.send('Howdy there Server!');
   heartbeat = true;
-  setTimeout(checkHeartBeat, 5000);
+  setTimeout(checkHeartbeat, 5000);
 });
 
 server.on('message', (message) => {
@@ -32,13 +30,13 @@ server.on('message', (message) => {
 
 
 //.......checks if the server is alive....
-function checkHeartBeat() {
+function checkHeartbeat() {
   if(heartbeat) {
     console.log('Server is alive');
     //clear the heart beat and send request for a new one
     heartbeat = null; 
-    server.send('Howdy there Server!');
-    setTimeout(checkHeartBeat, 5000);
+    server.send({request: 'heartbeat'});
+    setTimeout(checkHeartbeat, 5000);
   } else {
     console.log('Server looks stuck...killing');
     server.kill();
