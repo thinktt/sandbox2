@@ -1,37 +1,19 @@
-//...........Load modules used in the app.......
-var express = require('express');//get the express framework
-var app = express();// app becomes an instance of an express server
-var morgan = require('morgan');//morgan is the express middleware logger
-var bodyParser = require('body-parser');// for parsing json requset
-
-//..............Load Config Vars.................
+var app = require('express')();
+var morgan = require('morgan');
+var bodyParser = require('body-parser');
 var port = process.env.PORT || 3000;
 
-
 //...........Load in middleware................
-app.use(morgan('dev')); // log all request and errors 
-app.use(bodyParser.json()); //pareses json reuest
-app.use(express.static('public'));//serve static files
-
+app.use(morgan('dev')); 
+app.use(bodyParser.json());
 
 //............Set up Routes............
-app.get('/greeting', function(req, res) {
+app.get('/greeting', (req, res) => {
  res.json({greeting: 'Howdy World!'});
 });
 
-app.post('/greeting', function(req, res) {
-  var name = req.body.name;
-  res.json({greeting: 'Howdy ' + name + '!' });
-});
-
-app.get('/exit', function(req, res) {
- res.json({exit: 0});
- process.exit();
-});
-
-
 //.............Start the server............
-app.listen(port, function(err) {
+app.listen(port, (err) => {
   if(err) {
     console.log('Unable to start server:');
     console.log(err);
@@ -41,11 +23,14 @@ app.listen(port, function(err) {
   }
 });
 
+//listen and respond to heartbeat request from parent
 process.on('message', (message) => {
-  process.send('Howdy back');
+  if(message && message.request === 'heartbeat') {
+    process.send({heartbeat: 'thump'});
+  }
 });
 
-//after a minute block 
+//block the even loop after 30 seconds 
 setTimeout(() => {
   for(;;){}
 }, 30000);
