@@ -1,8 +1,17 @@
-/*jshint esnext: true*/
-fs = require('fs');
-
+var fs = require('fs');
 //fs.writeFile(file, data[, options], callback)
 //fs.readFile(file[, options], callback)
+
+// var theGenIns =myGenerator();
+
+
+// function* myGenerator() {
+//   var result;
+//   result = yield fs.readFile('.eslintrc.json', 'utf8', theGenIns.next);
+  
+//   return result;
+// }
+
 
 
 function* myTest() {
@@ -20,14 +29,26 @@ function add(a, b) {
 }
 
 var gen = myTest();
-var output ={}; 
-var i = 0;
+console.log(gen.next());
+console.log(gen.next(5));
 
 
-do {
-  output = gen.next(output.value);
-  console.log(output);
-} while (!output.done);
+
+
+
+
+
+
+
+// var output ={}; 
+// var i = 0;
+
+
+
+// do {
+//   output = gen.next(output.value);
+//   console.log(output);
+// } while (!output.done);
 
 // console.log('done');
 
